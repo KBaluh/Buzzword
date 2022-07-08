@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Buzzword.Application.Contracts.V1
 {
-    internal class UriRoutes
+    public class UriRoutes
     {
     }
 }

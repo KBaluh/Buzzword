@@ -1,4 +1,5 @@
-﻿using Buzzword.Application.Domain.DataContext;
+﻿using Buzzword.Application.Contracts.V1;
+using Buzzword.Application.Domain.DataContext;
 using Buzzword.Application.Domain.Entities;
 
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Buzzword.Application.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace Buzzword.Application.API.Controllers
             _dataSource = applicationDataSource;
         }
 
-        [HttpGet]
+        [HttpGet(ApiRoutes.Users.GetAll)]
         [ProducesResponseType(typeof(IList<User>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersAsync(CancellationToken cancellationToken)
         {
@@ -34,7 +34,7 @@ namespace Buzzword.Application.API.Controllers
             return Ok(items);
         }
 
-        [HttpGet("{userId}", Name = nameof(GetUserAsync))]
+        [HttpGet(ApiRoutes.Users.Get, Name = nameof(GetUserAsync))]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserAsync(Guid userId, CancellationToken cancellationToken)
         {
@@ -50,16 +50,16 @@ namespace Buzzword.Application.API.Controllers
             return Ok(item ?? new User());
         }
 
-        [HttpPost]
+        [HttpPost(ApiRoutes.Users.Create)]
         [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateUserAsync(User user)
         {
             _dataSource.Entry(user).State = EntityState.Added;
             await _dataSource.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUserAsync), new { userId = user.Id });
+            return CreatedAtRoute(nameof(GetUserAsync), new { userId = user.Id }, user);
         }
 
-        [HttpPut("{userId}")]
+        [HttpPut(ApiRoutes.Users.Update)]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateUserAsync(Guid userId, User user)
         {
@@ -71,7 +71,7 @@ namespace Buzzword.Application.API.Controllers
             return Ok(item);
         }
 
-        [HttpDelete("{userId}")]
+        [HttpDelete(ApiRoutes.Users.Delete)]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
