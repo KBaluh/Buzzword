@@ -7,10 +7,10 @@ namespace Buzzword.Application.Domain.DataContext
 {
     public interface IDataSource : IDisposable
     {
-        DbSet<User> Users { get; set; }
-        DbSet<UserWord> UserWords { get; set; }
-        DbSet<Group> Groups { get; set; }
-        DbSet<GroupWord> GroupWords { get; set; }
+        DbSet<User> Users { get; }
+        DbSet<UserWord> UserWords { get;}
+        DbSet<Group> Groups { get; }
+        DbSet<GroupWord> GroupWords { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
