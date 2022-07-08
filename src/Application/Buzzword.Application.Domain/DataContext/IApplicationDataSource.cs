@@ -9,7 +9,7 @@ namespace Buzzword.Application.Domain.DataContext
     {
         DbSet<User> Users { get; }
         DbSet<UserWord> UserWords { get; }
-        DbSet<Group> Groups { get; }
+        DbSet<Group> UserGroups { get; }
         DbSet<GroupWord> GroupWords { get; }
 
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
