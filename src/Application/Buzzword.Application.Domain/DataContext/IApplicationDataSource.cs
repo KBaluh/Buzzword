@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Buzzword.Application.Domain.DataContext
 {
-    public interface IDataSource : IDisposable
+    public interface IApplicationDataSource : IDisposable
     {
         DbSet<User> Users { get; }
-        DbSet<UserWord> UserWords { get;}
+        DbSet<UserWord> UserWords { get; }
         DbSet<Group> Groups { get; }
         DbSet<GroupWord> GroupWords { get; }
 
