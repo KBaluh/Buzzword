@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.WebApp", "src\UI\C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.DesktopApp", "src\UI\Clients\Buzzword.DesktopApp\Buzzword.DesktopApp.csproj", "{C600F520-5015-4501-876B-51A9644C2652}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzword.Application.Domain", "src\Application\Buzzword.Application.Domain\Buzzword.Application.Domain.csproj", "{172AFA0C-2A7A-4513-8F18-40BF53AC32CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{C600F520-5015-4501-876B-51A9644C2652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C600F520-5015-4501-876B-51A9644C2652}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C600F520-5015-4501-876B-51A9644C2652}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{4350E5D3-A829-4FDD-B61B-559F4FC9A1FF} = {FE3D0ECF-CC91-4334-9B0D-92B8FFC41BF1}
 		{5258BEAE-E332-45B2-AB9A-FF0C259F838D} = {5D0DD62B-C159-4A0F-81A6-486A76C1BF31}
 		{C600F520-5015-4501-876B-51A9644C2652} = {5D0DD62B-C159-4A0F-81A6-486A76C1BF31}
+		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB} = {D9545B6D-85CC-47FA-97EE-DDD3E6CFBBCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
