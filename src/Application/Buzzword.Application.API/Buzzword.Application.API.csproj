@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Buzzword.Application.Contracts\Buzzword.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Buzzword.Application.Domain\Buzzword.Application.Domain.csproj" />
   </ItemGroup>
 
 </Project>
