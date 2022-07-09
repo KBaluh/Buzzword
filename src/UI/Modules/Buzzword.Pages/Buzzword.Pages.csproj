@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Buzzword.Application.Interfaces\Buzzword.Application.Interfaces.csproj" />
+    <ProjectReference Include="..\..\..\Application\Buzzword.Application.WebDomainServices\Buzzword.Application.WebDomainServices.csproj" />
     <ProjectReference Include="..\Buzzword.Components\Buzzword.Components.csproj" />
   </ItemGroup>
 

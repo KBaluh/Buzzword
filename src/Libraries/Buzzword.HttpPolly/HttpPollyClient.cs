@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Buzzword.HttpPolly
         private readonly string _callerTypeName;
         private readonly Random _jitterer;
 
-        public HttpPollyClient(IHttpPollyConnection connection, string callerTypeName)
+        public HttpPollyClient(IHttpPollyConnection connection, [CallerMemberName] string callerTypeName = "")
         {
             _connection = connection;
             _callerTypeName = callerTypeName;
