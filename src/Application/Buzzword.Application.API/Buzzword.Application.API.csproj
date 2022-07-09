@@ -19,8 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Buzzword.Applicaiton.DomainServices\Buzzword.Applicaiton.DomainServices.csproj" />
     <ProjectReference Include="..\Buzzword.Application.Contracts\Buzzword.Application.Contracts.csproj" />
     <ProjectReference Include="..\Buzzword.Application.Domain\Buzzword.Application.Domain.csproj" />
+    <ProjectReference Include="..\Buzzword.Application.Interfaces\Buzzword.Application.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,84 +1,62 @@
 ﻿using Buzzword.Application.Contracts.V1;
-using Buzzword.Application.Domain.DataContext;
-using Buzzword.Application.Domain.Entities;
+using Buzzword.Application.Contracts.V1.Responses;
+using Buzzword.Application.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Buzzword.Application.API.Controllers
 {
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IUserService _userService;
         private readonly ILogger<UsersController> _logger;
-        private readonly IApplicationDataSource _dataSource;
 
-        public UsersController(ILogger<UsersController> logger, IApplicationDataSource applicationDataSource)
+        public UsersController(IUserService userService, ILogger<UsersController> logger)
         {
+            _userService = userService;
             _logger = logger;
-            _dataSource = applicationDataSource;
         }
 
         [HttpGet(ApiRoutes.Users.GetAll)]
-        [ProducesResponseType(typeof(IList<User>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IList<UserDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsersAsync(CancellationToken cancellationToken)
         {
-            var items = await _dataSource.Users
-                .Select(user => new User
-                {
-                    Id = user.Id,
-                    Name = user.Name
-                })
-                .AsNoTracking()
-                .ToListAsync(cancellationToken);
+            var items = await _userService.GetUsersAsync(cancellationToken);
             return Ok(items);
         }
 
         [HttpGet(ApiRoutes.Users.Get, Name = nameof(GetUserAsync))]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUserAsync(Guid userId, CancellationToken cancellationToken)
         {
-            var item = await _dataSource.Users
-                .Where(user => user.Id == userId)
-                .Select(user => new User
-                {
-                    Id = user.Id,
-                    Name = user.Name
-                })
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cancellationToken);
-            return Ok(item ?? new User());
+            var item = await _userService.GetUserAsync(userId, cancellationToken);
+            return Ok(item ?? new UserDto());
         }
 
         [HttpPost(ApiRoutes.Users.Create)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status201Created)]
-        public async Task<IActionResult> CreateUserAsync(User user)
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateUserAsync(UserDto user)
         {
-            _dataSource.Entry(user).State = EntityState.Added;
-            await _dataSource.SaveChangesAsync();
+            var item = await _userService.CreateUserAsync(user);
             return CreatedAtRoute(nameof(GetUserAsync), new { userId = user.Id }, user);
         }
 
         [HttpPut(ApiRoutes.Users.Update)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateUserAsync(Guid userId, User user)
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateUserAsync(Guid userId, UserDto user)
         {
-            var item = await _dataSource.Users.FirstAsync(user => user.Id == userId);
-            item.Name = user.Name;
+            user.Id = userId;
 
-            await _dataSource.SaveChangesAsync();
-
+            var item = await _userService.UpdateUserAsync(user);
             return Ok(item);
         }
 
         [HttpDelete(ApiRoutes.Users.Delete)]
-        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
-            var item = await _dataSource.Users.FirstAsync(user => user.Id == userId);
-            _dataSource.Users.Remove(item);
-            await _dataSource.SaveChangesAsync();
-
+            await _userService.DeleteUserASync(userId);
             return Ok();
         }
     }

@@ -1,4 +1,6 @@
+using Buzzword.Applicaiton.DomainServices;
 using Buzzword.Application.Domain.DataContext;
+using Buzzword.Application.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IApplicationDataSource, ApplicationDbContext>();
 builder.Services.AddScoped<ApplicationDbContextInitialiser>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

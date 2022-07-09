@@ -4,10 +4,10 @@ namespace Buzzword.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<IList<UserDto>> GetUsersAsync();
-        Task<UserDto> GetUserAsync(Guid userId);
+        Task<IList<UserDto>> GetUsersAsync(CancellationToken cancellationToken);
+        Task<UserDto> GetUserAsync(Guid userId, CancellationToken cancellationToken);
         Task<UserDto> CreateUserAsync(UserDto user);
         Task<UserDto> UpdateUserAsync(UserDto user);
-        Task<UserDto> DeleteUserASync(Guid userId);
+        Task DeleteUserASync(Guid userId);
     }
 }
