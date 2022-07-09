@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.Application.Interf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzword.Applicaiton.DomainServices", "src\Application\Buzzword.Applicaiton.DomainServices\Buzzword.Applicaiton.DomainServices.csproj", "{8943977F-B597-40AD-9198-D9F3E152F757}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzword.Application.WebDomainServices", "src\Application\Buzzword.Application.WebDomainServices\Buzzword.Application.WebDomainServices.csproj", "{7544211A-D6BA-40DB-A510-3D57E39C1078}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{8943977F-B597-40AD-9198-D9F3E152F757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8943977F-B597-40AD-9198-D9F3E152F757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8943977F-B597-40AD-9198-D9F3E152F757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{172AFA0C-2A7A-4513-8F18-40BF53AC32CB} = {D9545B6D-85CC-47FA-97EE-DDD3E6CFBBCE}
 		{3CD374E5-D243-409D-98E7-AB037FCA8F3F} = {D9545B6D-85CC-47FA-97EE-DDD3E6CFBBCE}
 		{8943977F-B597-40AD-9198-D9F3E152F757} = {D9545B6D-85CC-47FA-97EE-DDD3E6CFBBCE}
+		{7544211A-D6BA-40DB-A510-3D57E39C1078} = {D9545B6D-85CC-47FA-97EE-DDD3E6CFBBCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
