@@ -15,7 +15,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=Buzzword;User Id=BUzzword;Password=P@ssw0rd;MultipleActiveResultSets=true
+      - ConnectionStrings__DefaultConnection=Server=buzzword.db;Database=Buzzword;User Id=sa;Password=P@ssw0rd;MultipleActiveResultSets=true
     ports:
       - "6221:80"
     volumes:
@@ -34,3 +34,15 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     
+  buzzword.db:
+    environment:
+      - SA_PASSWORD=P@ssw0rd
+      - ACCEPT_EULA=Y
+    ports:
+      - "6223:1433"
+    volumes:
+      - buzzword-sqldata:/var/opt/mssql
+  
+volumes:
+  buzzword-sqldata:
+    external: false
