@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Buzzword.Common.Extensions
 {
@@ -21,9 +20,17 @@ namespace Buzzword.Common.Extensions
 
             var leftVisitor = new ReplaceExpressionVisitor(expr1.Parameters[0], parameter);
             var left = leftVisitor.Visit(expr1.Body);
+            if (left == null)
+            {
+                return expr2;
+            }
 
             var rightVisitor = new ReplaceExpressionVisitor(expr2.Parameters[0], parameter);
             var right = rightVisitor.Visit(expr2.Body);
+            if (right == null)
+            {
+                return expr1;
+            }
 
             return Expression.Lambda<Func<T, bool>>(
                 Expression.AndAlso(left, right), parameter);
@@ -40,7 +47,7 @@ namespace Buzzword.Common.Extensions
                 _newValue = newValue;
             }
 
-            public override Expression Visit(Expression node)
+            public override Expression? Visit(Expression? node)
             {
                 if (node == _oldValue)
                     return _newValue;

@@ -105,7 +105,7 @@ namespace Buzzword.Common.Extensions
         {
             if (paramValue.IsNotEmpty())
             {
-                return AddParameter(uri, paramName, paramValue.Value);
+                return AddParameter(uri, paramName, paramValue.GetValueOrDefault());
             }
             return uri;
         }
