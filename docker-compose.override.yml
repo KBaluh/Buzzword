@@ -25,11 +25,12 @@ services:
   buzzword.webapp:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80
-      - AuthorizationUrl=http://host.docker.internal:6220
-      - ApplicationUrl=http://host.docker.internal:6221
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - AuthorizationUrl=http://buzzword.identity.api
+      - ApplicationUrl=http://buzzword.application.api
     ports:
       - "6222:80"
+      - "6122:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
