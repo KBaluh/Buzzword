@@ -14,6 +14,7 @@ services:
       dockerfile: src/Application/Buzzword.Application.API/Dockerfile
     depends_on:
       - buzzword.identity.api
+      - buzzword.db
 
   buzzword.webapp:
     image: ${DOCKER_REGISTRY-}buzzwordwebapp
@@ -22,6 +23,7 @@ services:
       dockerfile: src/UI/Clients/Buzzword.WebApp/Dockerfile
     depends_on:
       - buzzword.identity.api
+      - buzzword.application.api
 
   buzzword.db:
     image: mcr.microsoft.com/mssql/server:2019-latest 

@@ -12,6 +12,7 @@ COPY ["src/Application/Buzzword.Applicaiton.DomainServices/Buzzword.Applicaiton.
 COPY ["src/Application/Buzzword.Application.Domain/Buzzword.Application.Domain.csproj", "src/Application/Buzzword.Application.Domain/"]
 COPY ["src/Application/Buzzword.Application.Interfaces/Buzzword.Application.Interfaces.csproj", "src/Application/Buzzword.Application.Interfaces/"]
 COPY ["src/Application/Buzzword.Application.Contracts/Buzzword.Application.Contracts.csproj", "src/Application/Buzzword.Application.Contracts/"]
+COPY ["src/Libraries/Buzzword.Common/Buzzword.Common.csproj", "src/Libraries/Buzzword.Common/"]
 RUN dotnet restore "src/Application/Buzzword.Application.API/Buzzword.Application.API.csproj"
 COPY . .
 WORKDIR "/src/src/Application/Buzzword.Application.API"

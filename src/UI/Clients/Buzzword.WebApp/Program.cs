@@ -20,6 +20,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IHttpPollyConnection, HttpPollyConnection>();
 builder.Services.AddSingleton<HttpPollyClient>();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IUserWordService, UserWordService>();
 
 var app = builder.Build();
 

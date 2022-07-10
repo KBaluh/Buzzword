@@ -1,0 +1,60 @@
+﻿@page "/words"
+
+<PageTitle>User words</PageTitle>
+
+@using Buzzword.Application.Contracts.V1.Requests.UserWords
+@using Buzzword.Application.Contracts.V1.Responses
+@using Buzzword.Application.Interfaces
+
+@inject IUserService UserService
+@inject IUserWordService UserWordService
+
+<h1>User words</h1>
+
+<p>This component fetching data from a applicaiton service.</p>
+
+@if (userWords == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Word</th>
+                <th>Translate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var userWord in userWords)
+            {
+                <tr>
+                    <td>@userWord.Id</td>
+                    <td>@userWord.Word</td>
+                    <td>@userWord.Translate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<UserWordDto>? userWords;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var users = await UserService.GetUsersAsync(CancellationToken.None);
+        var user = users.FirstOrDefault();
+        if (user == null)
+        {
+            userWords = new List<UserWordDto>();
+        }
+        else
+        {
+            var listQuery = new UserWordListQuery { UserId = user.Id };
+            userWords = await UserWordService.GetUserWordsAsync(listQuery, CancellationToken.None);
+        }
+    }
+}
