@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  buzzword.identity.api:
+    image: ${DOCKER_REGISTRY-}buzzwordidentityapi
+    build:
+      context: .
+      dockerfile: src/Identity/Buzzword.Identity.API/Dockerfile
+
+  buzzword.application.api:
+    image: ${DOCKER_REGISTRY-}buzzwordapplicationapi
+    build:
+      context: .
+      dockerfile: src/Application/Buzzword.Application.API/Dockerfile
+    depends_on:
+      - buzzword.identity.api
+
+  buzzword.webapp:
+    image: ${DOCKER_REGISTRY-}buzzwordwebapp
+    build:
+      context: .
+      dockerfile: src/UI/Clients/Buzzword.WebApp/Dockerfile
+    depends_on:
+      - buzzword.identity.api

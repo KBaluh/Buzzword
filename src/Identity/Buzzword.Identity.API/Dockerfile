@@ -15,7 +15,7 @@ WORKDIR "/src/src/Identity/Buzzword.Identity.API"
 RUN dotnet build "Buzzword.Identity.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Buzzword.Identity.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Buzzword.Identity.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

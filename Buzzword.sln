@@ -40,9 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.Application.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.Application.Interfaces", "src\Application\Buzzword.Application.Interfaces\Buzzword.Application.Interfaces.csproj", "{3CD374E5-D243-409D-98E7-AB037FCA8F3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzword.Applicaiton.DomainServices", "src\Application\Buzzword.Applicaiton.DomainServices\Buzzword.Applicaiton.DomainServices.csproj", "{8943977F-B597-40AD-9198-D9F3E152F757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.Applicaiton.DomainServices", "src\Application\Buzzword.Applicaiton.DomainServices\Buzzword.Applicaiton.DomainServices.csproj", "{8943977F-B597-40AD-9198-D9F3E152F757}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Buzzword.Application.WebDomainServices", "src\Application\Buzzword.Application.WebDomainServices\Buzzword.Application.WebDomainServices.csproj", "{7544211A-D6BA-40DB-A510-3D57E39C1078}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buzzword.Application.WebDomainServices", "src\Application\Buzzword.Application.WebDomainServices\Buzzword.Application.WebDomainServices.csproj", "{7544211A-D6BA-40DB-A510-3D57E39C1078}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6C443357-7251-448B-8952-777F8E4F36E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +114,10 @@ Global
 		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7544211A-D6BA-40DB-A510-3D57E39C1078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C443357-7251-448B-8952-777F8E4F36E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C443357-7251-448B-8952-777F8E4F36E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C443357-7251-448B-8952-777F8E4F36E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C443357-7251-448B-8952-777F8E4F36E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
