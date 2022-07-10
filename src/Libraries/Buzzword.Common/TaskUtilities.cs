@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
 
 namespace Buzzword.Common
 {
@@ -28,7 +26,7 @@ namespace Buzzword.Common
             await task.ConfigureAwait(false);
         }
 
-        public static void FireAndForgetSafeAsync(this Task task, IErrorHandler handler, [CallerMemberName] string callerMemberName = null)
+        public static void FireAndForgetSafeAsync(this Task task, IErrorHandler handler, [CallerMemberName] string callerMemberName = "")
         {
             // note: this code is inspired by a tweet from Ben Adams: https://twitter.com/ben_a_adams/status/1045060828700037125
             // Only care about tasks that may fault (not completed) or are faulted,
@@ -43,7 +41,7 @@ namespace Buzzword.Common
 
         // Allocate the async/await state machine only when needed for performance reason.
         // More info about the state machine: https://blogs.msdn.microsoft.com/seteplia/2017/11/30/dissecting-the-async-methods-in-c/
-        private static async Task ForgetAwaited(this Task task, IErrorHandler handler, [CallerMemberName] string callerMemberName = null)
+        private static async Task ForgetAwaited(this Task task, IErrorHandler handler, [CallerMemberName] string callerMemberName = "")
         {
             try
             {
