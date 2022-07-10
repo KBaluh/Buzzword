@@ -1,21 +1,16 @@
-﻿using System;
-using System.Net.Http;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 using Buzzword.Common;
 using Buzzword.Common.Exceptions;
 using Buzzword.Common.Extensions;
 
-using Newtonsoft.Json;
-
 using Polly;
 
 namespace Buzzword.HttpPolly
 {
-    public class HttpPollyClient
+    public class HttpPollyClient : IHttpPollyClient
     {
         private readonly IHttpPollyConnection _connection;
         private readonly string _callerTypeName;
@@ -28,31 +23,12 @@ namespace Buzzword.HttpPolly
             _jitterer = new Random();
         }
 
-        /// <summary>
-        /// Вызывает HTTP GET запрос
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<T> GetResultAsync<T>(Uri uri, int retries = 3)
+        public async Task<T?> GetResultAsync<T>(Uri uri, int retries = 3)
         {
             return await GetResultAsync<T>(uri, CancellationToken.None, retries);
         }
 
-        /// <summary>
-        /// Вызывает HTTP GET запрос
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<T> GetResultAsync<T>(Uri uri, CancellationToken cancellationToken, int retries = 3)
+        public async Task<T?> GetResultAsync<T>(Uri uri, CancellationToken cancellationToken, int retries = 3)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -77,7 +53,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(jsonStr);
+                return JsonSerializer.Deserialize<T>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -111,31 +87,12 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult>(Uri uri, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult>(Uri uri, int retries = 1)
         {
             return await PostResultAsync<TResult>(uri, CancellationToken.None, retries);
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult>(Uri uri, CancellationToken cancellationToken, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult>(Uri uri, CancellationToken cancellationToken, int retries = 1)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -158,7 +115,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonStr);
+                return JsonSerializer.Deserialize<TResult>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -192,33 +149,12 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult>(Uri uri, TResult param, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult>(Uri uri, TResult param, int retries = 1)
         {
             return await PostResultAsync<TResult>(uri, param, CancellationToken.None, retries);
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult>(Uri uri, TResult param, CancellationToken cancellationToken, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult>(Uri uri, TResult param, CancellationToken cancellationToken, int retries = 1)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -231,7 +167,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(param), Encoding.UTF8, "application/json");
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
                 var httpClient = _connection.GetIdentityClient();
@@ -241,7 +177,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonStr);
+                return JsonSerializer.Deserialize<TResult>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -275,35 +211,12 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult, TParam>(Uri uri, TParam param, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult, TParam>(Uri uri, TParam param, int retries = 1)
         {
             return await PostResultAsync<TResult, TParam>(uri, param, CancellationToken.None, retries);
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> PostResultAsync<TResult, TParam>(Uri uri, TParam param, CancellationToken cancellationToken, int retries = 1)
+        public async Task<TResult?> PostResultAsync<TResult, TParam>(Uri uri, TParam param, CancellationToken cancellationToken, int retries = 1)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -316,7 +229,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(param), Encoding.UTF8, "application/json");
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
                 var httpClient = _connection.GetIdentityClient();
@@ -326,7 +239,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonStr);
+                return JsonSerializer.Deserialize<TResult>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -360,14 +273,6 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
         public async Task PostAsync(Uri uri, int retries = 1)
         {
             await _connection.RefreshIfTokenExpiredAsync();
@@ -381,7 +286,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(string.Empty), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(string.Empty), Encoding.UTF8, "application/json");
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
                 var httpClient = _connection.GetIdentityClient();
@@ -424,16 +329,6 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP POST запрос
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
         public async Task PostAsync<T>(Uri uri, T param, int retries = 1)
         {
             await _connection.RefreshIfTokenExpiredAsync();
@@ -447,7 +342,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(param), Encoding.UTF8, "application/json");
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
                 var httpClient = _connection.GetIdentityClient();
@@ -490,17 +385,7 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP PUT запрос 
-        /// </summary>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TParam> UpdateResultAsync<TParam>(Uri uri, TParam param, int retries = 3)
+        public async Task<TParam?> UpdateResultAsync<TParam>(Uri uri, TParam param, int retries = 3)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -514,7 +399,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(param), Encoding.UTF8, "application/json");
 
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
@@ -525,7 +410,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TParam>(jsonStr);
+                return JsonSerializer.Deserialize<TParam>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -559,18 +444,7 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP PUT запрос 
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <typeparam name="TParam"></typeparam>
-        /// <param name="uri"></param>
-        /// <param name="param"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
-        public async Task<TResult> UpdateResultAsync<TResult, TParam>(Uri uri, TParam param, int retries = 3)
+        public async Task<TResult?> UpdateResultAsync<TResult, TParam>(Uri uri, TParam param, int retries = 3)
         {
             await _connection.RefreshIfTokenExpiredAsync();
 
@@ -584,7 +458,7 @@ namespace Buzzword.HttpPolly
                     await _connection.RefreshTokenAsync();
                 });
 
-            var content = new StringContent(JsonConvert.SerializeObject(param), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(param), Encoding.UTF8, "application/json");
 
             var response = await authorizationEnsuringPolicy.ExecuteAsync(async () =>
             {
@@ -595,7 +469,7 @@ namespace Buzzword.HttpPolly
             if (response.IsSuccessStatusCode)
             {
                 string jsonStr = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResult>(jsonStr);
+                return JsonSerializer.Deserialize<TResult>(jsonStr);
             }
             else if (response.IsNotFoundError())
             {
@@ -635,14 +509,6 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP DELETE запрос 
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <param name="retries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
         public async Task<bool> DeleteResultAsync(Uri uri, int retries = 3)
         {
             await _connection.RefreshIfTokenExpiredAsync();
@@ -699,13 +565,6 @@ namespace Buzzword.HttpPolly
             throw new BuzzwordException(httpContent ?? response.ToString());
         }
 
-        /// <summary>
-        /// Вызывает HTTP DELETE запрос для всех ссылок
-        /// </summary>
-        /// <param name="deleteUries"></param>
-        /// <returns></returns>
-        /// <exception cref="BuzzwordException"></exception>
-        /// <exception cref="BuzzwordAccessException"></exception>
         public async Task<int> DeleteRemotesAsync(params Uri[] deleteUries)
         {
             int affectedRows = 0;
