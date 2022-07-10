@@ -11,6 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<IApplicationDataSource, ApplicationDbContext>();
 builder.Services.AddScoped<ApplicationDbContextInitialiser>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserWordService, UserWordService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
