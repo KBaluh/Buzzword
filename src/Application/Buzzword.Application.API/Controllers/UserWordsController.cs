@@ -29,9 +29,9 @@ namespace Buzzword.Application.API.Controllers
 
         [HttpGet(ApiRoutes.UserWords.Get, Name = nameof(GetUserWordAsync))]
         [ProducesResponseType(typeof(UserWordDto), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUserWordAsync(Guid userId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserWordAsync(Guid userWordId, CancellationToken cancellationToken)
         {
-            var item = await _userWordService.GetUserWordAsync(userId, cancellationToken);
+            var item = await _userWordService.GetUserWordAsync(userWordId, cancellationToken);
             return Ok(item ?? new UserWordDto());
         }
 
