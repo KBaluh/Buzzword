@@ -18,7 +18,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IHttpPollyConnection, HttpPollyConnection>();
-builder.Services.AddSingleton<HttpPollyClient>();
+builder.Services.AddSingleton<IHttpPollyClient, HttpPollyClient>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IUserWordService, UserWordService>();
 

@@ -8,9 +8,9 @@ namespace Buzzword.Application.WebDomainServices
     public class UserService : IUserService
     {
         private readonly IHttpPollyConnection _connection;
-        private readonly HttpPollyClient _httpClient;
+        private readonly IHttpPollyClient _httpClient;
 
-        public UserService(IHttpPollyConnection httpPollyConnection, HttpPollyClient httpPollyClient)
+        public UserService(IHttpPollyConnection httpPollyConnection, IHttpPollyClient httpPollyClient)
         {
             _connection = httpPollyConnection;
             _httpClient = httpPollyClient;
@@ -20,28 +20,28 @@ namespace Buzzword.Application.WebDomainServices
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.GetAll(applicaitonUri);
-            return await _httpClient.GetResultAsync<IList<UserDto>>(uri, cancellationToken);
+            return await _httpClient.GetResultAsync<IList<UserDto>>(uri, cancellationToken) ?? Array.Empty<UserDto>();
         }
 
         public async Task<UserDto> GetUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.Get(applicaitonUri, userId);
-            return await _httpClient.GetResultAsync<UserDto>(uri, cancellationToken);
+            return await _httpClient.GetResultAsync<UserDto>(uri, cancellationToken) ?? new UserDto();
         }
 
         public async Task<UserDto> CreateUserAsync(UserDto user)
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.Create(applicaitonUri);
-            return await _httpClient.PostResultAsync<UserDto>(uri);
+            return await _httpClient.PostResultAsync<UserDto>(uri) ?? new UserDto();
         }
 
         public async Task<UserDto> UpdateUserAsync(UserDto user)
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.Update(applicaitonUri, user.Id);
-            return await _httpClient.UpdateResultAsync(uri, user);
+            return await _httpClient.UpdateResultAsync(uri, user) ?? new UserDto();
         }
 
         public async Task DeleteUserASync(Guid userId)
