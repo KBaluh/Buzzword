@@ -16,14 +16,14 @@ namespace Buzzword.Application.WebDomainServices
             _httpClient = httpPollyClient;
         }
 
-        public async Task<IList<UserDto>> GetUsersAsync(CancellationToken cancellationToken)
+        public async Task<IList<UserDto>> GetUsersAsync(CancellationToken cancellationToken = default)
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.GetAll(applicaitonUri);
             return await _httpClient.GetResultAsync<IList<UserDto>>(uri, cancellationToken);
         }
 
-        public async Task<UserDto> GetUserAsync(Guid userId, CancellationToken cancellationToken)
+        public async Task<UserDto> GetUserAsync(Guid userId, CancellationToken cancellationToken = default)
         {
             var applicaitonUri = _connection.GetAppServiceString();
             var uri = UriRoutes.Users.Get(applicaitonUri, userId);

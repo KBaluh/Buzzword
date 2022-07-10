@@ -45,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var users = await UserService.GetUsersAsync(CancellationToken.None);
+        var users = await UserService.GetUsersAsync();
         var user = users.FirstOrDefault();
         if (user == null)
         {
@@ -54,7 +54,7 @@ else
         else
         {
             var listQuery = new UserWordListQuery { UserId = user.Id };
-            userWords = await UserWordService.GetUserWordsAsync(listQuery, CancellationToken.None);
+            userWords = await UserWordService.GetUserWordsAsync(listQuery);
         }
     }
 }
