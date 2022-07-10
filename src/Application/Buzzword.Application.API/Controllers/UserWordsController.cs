@@ -40,7 +40,7 @@ namespace Buzzword.Application.API.Controllers
         public async Task<IActionResult> AddWordAsync(AddWordRequest wordRequest)
         {
             var item = await _userWordService.AddWordAsync(wordRequest);
-            return CreatedAtRoute(nameof(GetUserWordAsync), new { userId = wordRequest.UserId }, item);
+            return CreatedAtRoute(nameof(GetUserWordAsync), new { userWordId = item }, item);
         }
 
         [HttpPut(ApiRoutes.UserWords.Update)]
