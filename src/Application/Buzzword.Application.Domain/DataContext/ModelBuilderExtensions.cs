@@ -16,8 +16,8 @@ namespace Buzzword.Application.Domain.DataContext
         }
 
         public static void OnDeleteRestrict<TEntity, TRelatedEntity>(this ModelBuilder modelBuilder,
-            Expression<Func<TEntity, TRelatedEntity>> navigationProperty,
-            Expression<Func<TRelatedEntity, IEnumerable<TEntity>>> navigationCollection)
+            Expression<Func<TEntity, TRelatedEntity?>>? navigationProperty,
+            Expression<Func<TRelatedEntity, IEnumerable<TEntity>?>>? navigationCollection)
             where TEntity : class
             where TRelatedEntity : class
         {
@@ -28,8 +28,8 @@ namespace Buzzword.Application.Domain.DataContext
         }
 
         public static void OnDeleteCascade<TEntity, TRelatedEntity>(this ModelBuilder modelBuilder,
-            Expression<Func<TEntity, TRelatedEntity>> navigationProperty,
-            Expression<Func<TRelatedEntity, IEnumerable<TEntity>>> navigationCollection)
+            Expression<Func<TEntity, TRelatedEntity?>>? navigationProperty,
+            Expression<Func<TRelatedEntity, IEnumerable<TEntity>?>>? navigationCollection)
             where TEntity : class
             where TRelatedEntity : class
         {
@@ -40,8 +40,8 @@ namespace Buzzword.Application.Domain.DataContext
         }
 
         public static void OnDeleteNoAction<TEntity, TRelatedEntity>(this ModelBuilder modelBuilder,
-            Expression<Func<TEntity, TRelatedEntity>> navigationProperty,
-            Expression<Func<TRelatedEntity, IEnumerable<TEntity>>> navigationCollection)
+            Expression<Func<TEntity, TRelatedEntity?>>? navigationProperty,
+            Expression<Func<TRelatedEntity, IEnumerable<TEntity>?>>? navigationCollection)
             where TEntity : class
             where TRelatedEntity : class
         {
@@ -52,8 +52,8 @@ namespace Buzzword.Application.Domain.DataContext
         }
 
         public static void OnDeleteSetNull<TEntity, TRelatedEntity>(this ModelBuilder modelBuilder,
-            Expression<Func<TEntity, TRelatedEntity>> navigationProperty,
-            Expression<Func<TRelatedEntity, IEnumerable<TEntity>>> navigationCollection)
+            Expression<Func<TEntity, TRelatedEntity?>>? navigationProperty,
+            Expression<Func<TRelatedEntity, IEnumerable<TEntity>?>>? navigationCollection)
             where TEntity : class
             where TRelatedEntity : class
         {
