@@ -4,10 +4,9 @@ services:
   buzzword.identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
     ports:
-      - "80"
-      - "443"
+      - "6220:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -15,11 +14,10 @@ services:
   buzzword.application.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=host.docker.internal,1433;Database=Buzzword;User Id=BUzzword;Password=P@ssw0rd;MultipleActiveResultSets=true
     ports:
-      - "80"
-      - "443"
+      - "6221:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
@@ -28,11 +26,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - AuthorizationUrl=buzzword.identity.api
-      - ApplicationUrl=buzzword.application.api
+      - AuthorizationUrl=http://host.docker.internal:6220
+      - ApplicationUrl=http://host.docker.internal:6221
     ports:
-      - "80"
-      - "443"
+      - "6222:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
