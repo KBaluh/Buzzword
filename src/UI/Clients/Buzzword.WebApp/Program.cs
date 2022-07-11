@@ -2,16 +2,12 @@ using Buzzword.Application.Interfaces;
 using Buzzword.Application.WebDomainServices;
 using Buzzword.Components;
 using Buzzword.HttpPolly;
-using Buzzword.Pages.Data;
 using Buzzword.WebApp.Areas.Identity;
 using Buzzword.WebApp.Data;
 using Buzzword.WebApp.Services;
 
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +23,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<ThemeInterop>();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IHttpPollyConnection, HttpPollyConnection>();
