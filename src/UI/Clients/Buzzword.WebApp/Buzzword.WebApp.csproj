@@ -4,23 +4,33 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>69f66daa-da8e-4efa-a65e-501ceaa771e9</UserSecretsId>
+    <UserSecretsId>aspnet-Buzzword.WebApp-ED9BE939-5405-4A75-8E8E-3EBBBA704401</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..\..\..</DockerfileContext>
-    <DockerComposeProjectPath>..\..\..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Buzzword.Application.Contracts\Buzzword.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Application\Buzzword.Application.Interfaces\Buzzword.Application.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\Application\Buzzword.Application.WebDomainServices\Buzzword.Application.WebDomainServices.csproj" />
+    <ProjectReference Include="..\..\..\Identity\Buzzword.Identity.Contracts\Buzzword.Identity.Contracts.csproj" />
     <ProjectReference Include="..\..\..\Libraries\Buzzword.Common\Buzzword.Common.csproj" />
     <ProjectReference Include="..\..\Modules\Buzzword.Components\Buzzword.Components.csproj" />
     <ProjectReference Include="..\..\Modules\Buzzword.Pages\Buzzword.Pages.csproj" />
     <ProjectReference Include="..\..\Modules\Buzzword.Shared\Buzzword.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shared\" />
   </ItemGroup>
 
 </Project>
